@@ -1,0 +1,643 @@
+Mysql is an open source general purpose relational database management system, originally written by Monty widenius and David Axmark 
+
+Mysql is written in C and c++ and runs on a variety of platforms ..os 
+
+Most cloud computing platforms like aws also provides mysql instances and even ms azure 
+
+Official gui is workbench 
+[https://dev.mysql.com/downloads/]
+
+after downloading we type this in the terminal : sudo ln -s /usr/local/msql/bin/msql /usr/local/bin
+
+after we can access the db by typing in the terminal : mysql -u root -p
+
+if error start the server in settings solution :
+
+
+vi ~/.zshrc                                 // open the zsh config and edite
+export PATH=${PATH}:/usr/local/mysql/bin/   // to add these words
+source ~/.zshrc                            // make it work
+
+
+and then open new terminal and : mysql -u root -p
+
+and now you see  it started, you will see the cli 
+
+and you can use  mysql commands like : show databases;
+
+and if you want to quit you can type quit.
+
+
+Now we can install the workbench 
+
+workbench/ preferences/ uncheck safe and click ok , it will takes us home and create a server for us , so e click on the server and type our root password which will then connect us to the server 
+
+inside teh command line we can type : show databases; and hold command while hitting enter which will show all the available databases 
+
+
+Installing example databases 
+
+
+under adminis/ restore/ import from self contain file and then we can import sample databases and install them , 
+
+then we can paste the commands to acces the db 
+
+The dbs that we imported 
+
+USE world;
+SHOW tables;
+
+USE scratch;
+SHOW tables;
+
+USE album;
+SHOW tables;
+
+USE album;
+SELECT * FROM album;
+
+
+
+Creating user accounts 
+
+
+That is the admin account, so under the admin bench tab, we can select, users/ we add account and now we can add our new server 
+
+hostnames and wildcards 
+
+
+
+The sql statement: show engines;, will give you a list  of engines installed on your machine
+
+The default engine is the InnoDb engine, 
+
+The memory engine is used for temporary  objects 
+
+
+To show where objects are stored : SELECT table_name, engine FROM information_schema.tables WHERE table_schema = 'scratch';
+
+Then we get : 
+
+'customer','InnoDB'
+'item','InnoDB'
+'numerics','InnoDB'
+'sale','InnoDB'
+
+The default engine is the InnoDb, which is fully acid compliant, ACID stands for, Atomicity, consistency, isolation and durability 
+
+
+SQL - Structured query language is a common relational database for querying and manipulating data in database management system 
+
+SQL statement begins with the keyword and ends with a semi  colon; 
+
+SELECT * FROM table 
+
+They are not case sensitive
+
+To make a comment : --comment 
+-- selecting_data
+
+
+MYSQL also supports multiple line comments as well as single line comment with the # char 
+
+CLAUSES: 
+
+SELECT * FROM album WHERE label = 'colombia'
+
+from shows where we are selecting the item from where as where is the condition that must be satisfied for each roll selected 
+
+FUNCTIONS:
+Are used to perform specific ops on data
+
+SELECT COUNT(*)  FROM album WHERE label = 'colombia';
+
+the count func is used to find the number of matching rolls in the where clause 
+
+EXPRESSIONS:
+
+Are used to write values from data 
+
+SELECT Name, Population/1000000 AS POpMM
+FROM Country
+WHERE Population >=1000000
+ORDER BY Population DESC;
+
+The purpose of a database is to organize your data and make it available in convenient forms 
+MYSQL is a relational db, which is organized in rolls and columns 
+
+A relational db has tables, you can have one table or many tables 
+
+A table has rows and columns [https://dev.mysql.com/doc/refman/8.0/en/creating-tables.html]
+
+A row is like a record and the column is like a field 
+
+The table keys are used to create relationships with tables 
+
+SELECTING ROWS : 
+---------------
+
+We use the SELECT KEY WORLD, 
+
+SELECT 'Hello, World';
+
+And when executed this , you will get, Hello, world printed to the result grid. 
+
+It is used for queries that will return a value or set a value, 
+
+You can even do, SELECT 1 + 3;  and you will get the result. 
+
+So you can do , SELECT * FROM Country; //Here we are selecting from a database called country that will return all the rows and columns in the database,
+
+which will return all the rows and columns, 
+In random order, so each query may not be the same order, unless specified, so we can do :
+
+ SELECT * FROM Country ORDER BY Name;
+
+ Adn everything will be in order by the name column
+
+
+ You can also use the COUNT Func to select queries, for example, you can do , SELECT COUNT(*) FROM Country ORDER BY 
+ Name;
+
+ And you will get the result about the length of the data. 
+
+
+
+YOu can also specify the limit of rows to be returned, for example you can do :
+
+ SELECT * FROM Country ORDER BY Name LIMIT 5; \\And this will return the first 5 rows 
+
+ you can also do ,  SELECT * FROM Country ORDER BY Name LIMIT 5,5; 
+
+ We offset it by five, so it will skip the first five and output the results.
+
+ SELECTING COLUMNS:
+ -----------------
+ A given table may sometimes have a lot of columns, And sometimes you may be interested in selecting some of them.
+
+ You can select a column, even by arranging the query in order, 
+ 
+  SELECT Name,Code,Region,Population FROM Country ORDER Code;
+
+  And when this is execute you will see that, everything is arranged in order by columns, and it will be order by code as specified. 
+
+  COUNTING ROWS:
+  -------------
+  You can use the COUNT function to count rows instead of listing them, 
+  You do USE World; and execute , here we are using the world database, so we  can do , 
+
+  SELECT COUNT(*) FROM Country; and it will return the total items. 
+
+the COUNT() FUnc returns the number of rows in a result set and the asterisk is a special case that will count all the rows,
+
+You canaalso use:
+
+SELECT COUNT(*) FROM Country WHERE Population > 1000000;
+
+and it will return the number of rows where the pop is > than 1m 
+
+adding more queries : SELECT COUNT(*) FROM Country WHERE Population > 1000000 AND Continent='Africa';
+
+and it will return just as that.
+
+As the * is a special case for counting all the items , you can also do,
+
+SELECT COUNT(LifeExpectancy) FROM Country;
+
+INSERTING DATA
+--------------
+The insert statement is used to add a row or rows to the table 
+
+USE scratch;
+
+SELECT * FROM Customer;
+
+which returns a table with the data rows 
+
+To insert data, you can do : 
+
+INSERT INTO Customer (name,address,city,state,zip) VALUES ('Evans Ansong','123 townRight ave', 'Bedrock','CA','91234');
+
+and this will insert the data into the table, 
+And when you do : SELECT * FROM Customer;
+
+You will see that it has been inserted into the row;
+
+Null state represents a lack of value or no value
+
+UPDATING DATA:
+-------------
+The UPDATE statement is used to change existing rows from a table, 
+
+USE scratch;
+
+SELECT * FROM Customer;
+
+You will get results of the rows in the db 
+including the one inserted into the db:
+
+SELECT * FROM Customer WHERE name LIKE 'Evans%';
+
+the % means 0 or more of any char. 
+where this will return only the rows where the name column Begins with the chars 'Evans'; 
+
+So we can update data for the customer whose fields are null:
+
+  UPDATE Customer SET state  = 'NY', zip = '11001' WHERE name LIKE 'Dani';
+  SELECT * FROM Customer WHERE name LIKE 'Dani';
+
+
+And when we check  you will see that the fields has been updated.
+
+The where clause is used to set the specified field, without it it wil update everything in the table
+
+You can also use the same syntax to update the field: 
+
+  UPDATE Customer SET state  = 'KY' WHERE name LIKE 'Dani';
+  SELECT * FROM Customer WHERE name LIKE 'Dani';
+
+
+If we want to get rid of a value , we can set it to null 
+The UPDATE statement is used to change particular columns and rows in a table 
+
+DELETING DATA:
+--------------
+    The delete statement is used to delete rows from a table
+
+    USE scratch;
+
+CREATE TABLE test ( a INT, b VARCHAR(16), c VARCHAR(16) );
+INSERT INTO test VALUES ( 1, 'this', 'right here!' );
+INSERT INTO test VALUES ( 2, 'that', 'over there!' );
+INSERT INTO test VALUES ( 3, 'another', 'nowhere.' );
+INSERT INTO test VALUES ( 4, 'again', 'guess where?' );
+INSERT INTO test VALUES ( 1, 'one more', 'everywhere!' );
+
+
+So we create a table and insert these values into it : shit + command + return;
+
+Will insert all the data into the table, so when we do :
+
+SELECT * FROM test;
+
+you will see we have three columns, a,b,c 
+
+And when we do: SELECT * FROM test WHERE b='again';
+
+You will notice that we get one row where be is 'again' inside the table 
+
+Instead of SELECT when we say DELETE  FROM test WHERE b='again';
+
+and now that row with the b= 'again' will be removed when you do: SELECT * FROM test;
+
+
+
+JOINING QUERIES ACROSS TABLES
+-----------------------------
+The ability to combine results from related rows in different tables is an important part of using relational db , in mysql this is accomplished with the JOIN CLAUSE, 
+
+Use album;
+
+SELECT * FROM album;
+SELECT * FROM track;
+
+SELECT a.artist AS Artist, a.title AS Album, t.track_number AS 'Track Num',
+    t.title AS Track, t.duration AS Seconds
+  FROM album AS a
+  JOIN track AS t ON a.id = t.album_id
+  ORDER BY a.artist, a.title, t.track_number;
+
+
+aAnd this will combine the two tables;  
+
+
+FINDING DATABASES, TABLES AND COLUMNS; 
+--------------------------------------
+Lets say we are connected to scratch db, to show a list servers available on this server connection we can say : 
+
+SHOW DATABASES; That will give you a list of databases available.
+
+If you want to show the number of tables: use database name and : show tables 
+
+Will give you a list of tables available:
+'customer'
+'item'
+'numerics'
+'sale'
+'test'
+
+And if we need the columns in a table : 
+
+DESCRIBE customer; 
+
+That will give you a list of columns in that table along with their type, 
+
+
+MYSQL DATA TYPES
+----------------
+
+DataTypes are how your system stores and represents different data types in your db 
+
+MySQL supports three data types, 
+
+- Numeric types : to represent numeric values 
+- String type is used to represent both non text and text strings
+- Date and time types : used to represent date times and other temporal values 
+
+and a few specialty types, including BOOLEAN AND SETS 
+
+The numeric comes in  types,
+
+we have the INT type : 47,10000
+
+and the fixed point type : are used to represent pre size values 11.111
+
+floating type are used to represent real numbers whether large or very small , 1.0, 1112m444
+
+
+Fixed length char strings are used for stings within a  length, example form labels, postal codes : 'ANSONG' 'A1 00' THE SPACES WILL BE STRIPED 
+
+Variable length stringS are used in where you cannot predict the exact length of string: 'The boy is very good' the spaces are not striped 
+
+Binary strings 
+
+BLOB - BiNary large Objects 
+
+THE CREATE TABLE STATEMENT
+--------------------------
+USE scratch;
+
+CREATE TABLE test (
+    id INT,
+    name VARCHAR(255),
+    address VARCHAR(255),
+    city VARCHAR(255),
+    state CHAR(2),
+    zip CHAR(10)
+);
+
+When execute, this will create a table 
+
+If a table exists, you can do : DROP TABLE IF EXISTS test; 
+
+NUMERIC TYPES
+-------------
+Int types are used to store number that does not have a fractional part: 1
+
+The decimal type is used for fixed precision values : (p,s) this takes two params, the first one is precession and scale. for example, 
+
+1234567.89 has a precession of 1234567 and a scale of .89
+
+MYSQL provides two decimal types, float and double;
+
+
+DATE AND TIME TYPES 
+-------------------
+MySQL stores date and times in standard SQL formats 
+
+For example , you can do : SELECT NOW()
+
+and get : 2021-10-19 05:12:08
+
+You can set time zone with, set Timezone 
+
+SET time_zone = 'SYSTEM';
+SELECT NOW()
+
+you can also set the timezone to be utc_timestamp
+
+SELECT utc_timestamp() Which will return the same date as ijn utc 
+
+
+STRING TYPES
+------------
+Char strings are used to store text base strings 
+Binary strings stores non text data 
+fixed length 
+Variable length
+
+CHAR strings comes in two varieties: CHAR(LENGTH)
+so if you do CHAR(5) the length of the char will always be 5 
+
+VARCHAR string is a variable length string, VARCHAR(length)
+
+The variable limits the number of strings, for example if you: VARCHAR(25) the variable will use only up to 25 characters of strings 
+
+CHAR(5) - always uses 5 bytes 
+VARCHAR(25) - uses up to 25 + 1 bytes
+
+We also have the BINARY() and VARBINARY
+
+ENUM TYPES
+---------
+Stores one value from a  list of possible values:
+
+DROP TABLE IF EXISTS test;
+CREATE TABLE test (
+  id INT UNSIGNED UNIQUE AUTO_INCREMENT PRIMARY KEY,
+  a ENUM( 'Pablo', 'Henri', 'Jackson' )
+);
+INSERT INTO test ( a ) VALUES ( 'Pablo' );
+INSERT INTO test ( a ) VALUES ( 'Henri' );
+INSERT INTO test ( a ) VALUES ( 'Jackson' );
+INSERT INTO test ( a ) VALUES ( 1 );
+INSERT INTO test ( a ) VALUES ( 2 );
+INSERT INTO test ( a ) VALUES ( 3 );
+SELECT * FROM test;
+
+When executed will only return :
+
+'1','Pablo'
+'2','Henri'
+'3','Jackson'
+'4','Pablo'
+'5','Henri'
+'6','Jackson'
+
+
+
+THE SERIAL TYPE alias
+--------------------
+for a example :
+
+DROP TABLE IF EXISTS test;
+CREATE TABLE test (
+  id INT UNSIGNED UNIQUE AUTO_INCREMENT PRIMARY KEY,
+  a VARCHAR(32)
+);
+INSERT INTO test ( a ) VALUES ( 'Pablo' );
+INSERT INTO test ( a ) VALUES ( 'Henri' );
+INSERT INTO test ( a ) VALUES ( 'Jackson' );
+SELECT * FROM test;
+DESCRIBE test;
+
+in id field we have all this : id INT UNSIGNED UNIQUE AUTO_INCREMENT PRIMARY KEY
+
+but we can replace w=it with serial which represents UNSIGNED UNIQUE AUTO_INCREMENT PRIMARY KEY
+
+and when executed :
+
+'id','bigint unsigned','NO','PRI',NULL,'auto_increment'
+'a','varchar(32)','YES','',NULL,'' \\this is from desc test
+
+
+OPERATORS AND FUNCTIONS
+_______________________
+MySQL comes with a complete set of comparison operators which may be used in both numbers and strings
+
+for a example you can do: SELECT 0 = 1;
+
+Will output 0 because false results is represented by 0 and true is represented by 1 
+
+for if you do : SELECT 0 = 0;
+
+will return 1 
+
+It also supports other comparison operators, like !=
+
+SELECT 11 !=22;
+
+returns 1 means true
+
+It also supports Boolean logic 
+
+SELECT (12>10) AND (1 !=0);
+
+YOU get 1 
+
+
+PEDMAS - PARENTHESIS -EXPONENTS 
+
+
+STRING FUNCTIONS
+---------------
+USE world;
+
+Lets say we want to select all  countries that has 'a' in the second position
+
+SELECT name FROM country WHERE name LIKE '_a%' ORDER BY name;
+
+Will return all the names with a in the second position
+
+SELECT Name FROM country WHERE Name RLIKE 'y$' ORDER BY Name;
+this one also selects all teh names that ends with y
+
+
+String concatenation;
+
+SELECT CONCAT('This ', 'and ', 'that');
+
+Will output : This and that
+
+Numeric conversions
+-------------------
+For example if you do, SELECT 1234 you will get 1234
+
+but if you do select: SELECT HEX(32753);
+
+you get the hex value of the number 
+
+You can also do, SELECT BIN(32753);
+ which will convert the numbers to binary code : 111111111110001
+
+
+ Trimming and Padding
+ -----------------
+ USE SCRATCH;
+
+ There will be some cases where you will want to trim the spaces from a string, for example , a user types their data in form 
+
+ SELECT * FROM customer WHERE Name LIKE '  Dani  ';  even though we have a customer called Dani but because of teh spaces, it will return null 
+
+ But if we put the function TRIM() Around it, you will see that it will remove the white spaces 
+
+ SELECT * FROM customer WHERE Name LIKE TRIM('  Dani  ');
+
+ Now it returns : '5','Dani','223 Dani beach','Nordfork','KY','11001'
+
+ where it was returning null 
+
+ You can also specify either to trim from the left or right RTRIM() AND LTRIM()
+ You can also use LPAD AND RPAD to append strings to another string 
+
+
+ CASE CONVERSION
+ ---------------
+
+ SELECT UPPER(name) FROM customer;
+
+ This will select all customers with their names upper cased :
+
+'BILL SMITH'
+'MARY SMITH'
+'BOB SMITH'
+'EVANS ANSONG'
+'DANI'
+
+You can use UCASE which will give you the same result;  
+
+You can say LOWER(name) and you will see that all teh names are lower cased 
+OR LCASE(name)
+
+
+SUBSTRINGS
+----------
+This function returns a part of teh string beginning from where we specified ,
+
+SELECT SUBSTRING('I am that guy who hates nonsense',6);
+
+Will output : that guy who hates nonsense 
+
+SUBSTR will work the same way too 
+
+SOUDEX
+-----
+Are used to find words that sounds like english language 
+
+For example : SELECT SOUNDEX('LUCK'), SOUNDEX('LACK');
+
+since they all sound the same, it returns : 'L200','L200' the same values for the two 
+
+But if you do : SELECT SOUNDEX('LUCK'), SOUNDEX('SUCK');
+
+It returns : 'L200','S000' because they don't sound the alike 
+
+The soundEx algorithm returns initial number followed by the sound of the word after vows has been omitted 
+
+It is a simple way to implement sounds like functionality 
+
+
+MATHEMATICAL FUNCTIONS
+---------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+COMMON MYSQL QUERIES FOR INTERVIEWS;
+
+1. Write a query to find the third-highest salary from the employeeInfo Table.
+
+SOL 1:
+
+SELECT * FROM EmployeeInfo 
+ORDER BY SALARY DESC 
+LIMIT 2,1;
+
+OR 
+
+SELECT Salary FROM EmployeeInfo 
+ORDER BY Salary DESC 
+LIMIT 2,1;
